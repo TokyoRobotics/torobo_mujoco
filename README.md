@@ -13,7 +13,7 @@ pip install mujoco
 
 1. Clone this repository and move to torobo_mujoco/example.
     ```
-    git clone git@github.com:TokyoRobotics/torobo_mujoco.git
+    git clone https://github.com/TokyoRobotics/torobo_mujoco.git
     ```
 
     ```
