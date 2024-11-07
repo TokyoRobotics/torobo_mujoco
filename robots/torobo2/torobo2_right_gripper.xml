@@ -1,4 +1,4 @@
-<mujoco model="torobo2_standard">
+<mujoco model="torobo2_right_gripper">
   <compiler angle="radian" meshdir="meshes" autolimits="true"/>
   <option timestep='0.001' integrator="implicitfast" cone="elliptic" impratio="1000" noslip_iterations="3">
     <flag multiccd="enable"/>
