@@ -20,13 +20,19 @@ pip install mujoco
     cd torobo_mujoco/example
     ```
 
-2. Execute the example script.
+2. Execute the example scripts.
+
+    ### Spawn model
+
     ```
     python example_torobo2.py
     ```
+    <img src="./doc/torobo2.png" width="600">
 
-    ![](./doc/torobo2.png)
+    ### Pitching motion
 
-3. Move joints by dragging in Control tab.
+    ```
+    python example_torobo2_pitching.py
+    ```
+    <img src="./doc/torobo2_pitching.gif" width="600">
 
-    ![](./doc/torobo2_move_leftarm.gif)
