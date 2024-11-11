@@ -400,8 +400,8 @@
     <position name="right_arm/joint_6" joint="right_arm/joint_6" ctrlrange="-1.5708 1.5708" forcerange="-30 30" kp="10000" kv="1000"/>
     <position name="right_arm/joint_7" joint="right_arm/joint_7" ctrlrange="-0.349066 1.5708" forcerange="-30 30" kp="10000" kv="1000"/>
     <position name="right_gripper/finger_joint" joint="right_gripper/finger_joint" ctrlrange="0 0.031" kp="100000" kv="10"/>
-    <position name="head/joint_1" joint="head/joint_1" ctrlrange="-2.96706 2.96706" forcerange="-6 6" kp="20" kv="1"/>
-    <position name="head/joint_2" joint="head/joint_2" ctrlrange="-0.872665 1.0472" forcerange="-6 6" kp="20" kv="1"/>
-    <position name="head/joint_3" joint="head/joint_3" ctrlrange="-0.872665 0.872665" forcerange="-6 6" kp="20" kv="1"/>
+    <position name="head/joint_1" joint="head/joint_1" ctrlrange="-2.96706 2.96706" forcerange="-6 6" kp="100" kv="10"/>
+    <position name="head/joint_2" joint="head/joint_2" ctrlrange="-0.872665 1.0472" forcerange="-6 6" kp="100" kv="10"/>
+    <position name="head/joint_3" joint="head/joint_3" ctrlrange="-0.872665 0.872665" forcerange="-6 6" kp="100" kv="10"/>
   </actuator>
 </mujoco>
