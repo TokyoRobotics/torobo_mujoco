@@ -30,6 +30,17 @@ Move joints by dragging in Control tab.
 
 <img src="./doc/torobo2_move_leftarm.gif" width="600">
 
+## Example motion
+
+### Pitching motion
+※ There is a problem with the timing of the ball release differing depending on the computer environment. If you have any solutions, please let us know in the GitHub discussions.
+
+```
+cd example
+python example_torobo2_pitching.py
+```
+<img src="./doc/torobo2_pitching.gif" width="600">
+
 ## Play with the trained policy in Isaac Sim (Reinforcement Learning Sim2Sim)
 
 ### Install related python packages
