@@ -223,20 +223,19 @@ def main():
 
             # execute throwing motion
             if time.time() - start >= 2:
-                if len(throw_jt) == 0:
-                    continue
-                head_pos = head_jt.pop(0)
-                d.ctrl[base_joint_num+18:base_joint_num+21] = head_pos
+                if len(throw_jt) != 0:
+                    head_pos = head_jt.pop(0)
+                    d.ctrl[base_joint_num+18:base_joint_num+21] = head_pos
 
-                left_arm_pos = left_arm_jt.pop(0)
-                d.ctrl[base_joint_num+3:base_joint_num+10] = left_arm_pos
+                    left_arm_pos = left_arm_jt.pop(0)
+                    d.ctrl[base_joint_num+3:base_joint_num+10] = left_arm_pos
 
-                throw_pos = throw_jt.pop(0)
-                d.ctrl[base_joint_num:base_joint_num+3] = throw_pos[:3] # torso
-                d.ctrl[base_joint_num+10:base_joint_num+17] = throw_pos[3:] # right arm
+                    throw_pos = throw_jt.pop(0)
+                    d.ctrl[base_joint_num:base_joint_num+3] = throw_pos[:3] # torso
+                    d.ctrl[base_joint_num+10:base_joint_num+17] = throw_pos[3:] # right arm
 
             # open gripper to release ball
-            if time.time() - start >= 4.05:
+            if time.time() - start >= 4.07:
                 d.ctrl[20] = 0.031
 
             mujoco.mj_step(m, d)
@@ -245,7 +244,6 @@ def main():
             time_until_next_step = timestep - (time.time() - step_start)
             if time_until_next_step > 0:
                 time.sleep(time_until_next_step)
-
 
 if __name__ == '__main__':
     main()
