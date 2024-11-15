@@ -1,6 +1,6 @@
 <mujoco model="torobo2_right_gripper_pitching">
   <compiler angle="radian" meshdir="meshes" autolimits="true"/>
-  <option timestep='0.001' integrator="implicitfast" cone="elliptic" impratio="1000" noslip_iterations="3">
+  <option timestep='0.001' integrator="implicitfast" cone="elliptic" impratio="1000" noslip_iterations="3" viscosity="1.8e-5" density="1.2">
     <flag multiccd="enable"/>
   </option>
   <statistic meansize="0.168448" extent="1.97347" center="-0.00792332 4.8352e-07 0.707312"/>
@@ -90,9 +90,8 @@
     <geom name="ground" type="plane" size="0 0 1" pos="0.001 0 0" quat="1 0 0 0" material="matplane" condim="1" conaffinity='15'/>
 
     <body name="object" pos="0.27 0.48 1.07" quat="0.7071068 0.7071068 0 0">
-      <geom name="object" type="sphere" size="0.022" mass="0.05" solref="0.001 1" solimp="0.9 0.91 0.001 0.5 2" rgba="1 0 0 1"></geom>
-      <inertial pos="0 0 0" mass="0.1" diaginertia="0.001 0.001 0.001"/>
-      <joint name="object_joint" type="free" damping="0.1" armature="0.01"/>
+      <freejoint/>
+      <geom name="object" type="sphere" size="0.022" mass="0.05" solref="0.001 1" solimp="0.9 0.91 0.001 0.5 2" rgba="1 0 0 1" fluidshape="ellipsoid" condim="6" friction="1 0.5 0.5"></geom>
     </body>
 
     <body name="base_link_trans_x" pos="0 0 0">
