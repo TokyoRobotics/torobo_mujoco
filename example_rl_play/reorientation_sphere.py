@@ -20,7 +20,7 @@ class ReorientationSphereControl(RLPlayBase):
                          sim_duration=60,
                          sim_dt=0.0083,
                          sim_decimation=4,
-                         default_qpos=np.zeros(16),
+                         default_qpos=np.array([0, 0.01, 0.01, 1.42, 0, 0, 0.93, 0.8, 1.5, 0.8, -0.3, 0.46, 1.1, 0.46, -0.3, 0.632]),
                          isaac_joint_names_order = ['hand_first_finger_base_joint', 'hand_second_finger_base_joint', 'hand_third_finger_base_joint',
                                                     'hand_thumb_joint_1', 'hand_first_finger_joint_1', 'hand_second_finger_joint_1',
                                                     'hand_thumb_joint_2', 'hand_first_finger_joint_2', 'hand_third_finger_joint_1',
@@ -40,17 +40,21 @@ class ReorientationSphereControl(RLPlayBase):
         model.opt.timestep = self.sim_dt
 
         data = mujoco.MjData(model)
+        # set initial positions
+        mujoco_actuated_joint_names_order = ['hand_first_finger_base_joint', 'hand_first_finger_joint_1', 'hand_first_finger_joint_2',
+                                            'hand_second_finger_base_joint', 'hand_second_finger_joint_1', 'hand_second_finger_joint_2',
+                                            'hand_third_finger_joint_1', 'hand_third_finger_joint_2',
+                                            'hand_thumb_joint_1', 'hand_thumb_joint_2', 'hand_thumb_joint_3', 'hand_thumb_joint_4']
+        isaac2mujoco_actuated_indices = [self.isaac_joint_names_order.index(joint_name) for joint_name in mujoco_actuated_joint_names_order]
+
+        data.qpos[-self.num_dofs:] = self.default_qpos[self.isaac2mujoco_indices]
+        data.ctrl = self.default_qpos[isaac2mujoco_actuated_indices]
 
         viewer = mujoco.viewer.launch_passive(model, data)
 
         lower_pos_limit = np.array([-0.10472, -0.10472, -0.10472, 0, 0, 0, 0, -0.174533, 0, -0.174533, -0.349066, -0.174533, -0.174533, -0.174533, -0.349066, -0.174533])
         upper_pos_limit = np.array([0.10472, 0.10472, 0.10472, 1.5708, 1.5708, 1.5708, 1.0472, 1.91986, 1.5708, 1.91986, 1.5708, 1.91986, 1.91986, 1.91986, 1.5708, 1.91986])
 
-        # must be controlled in the order of the following indices
-        actuated_joint_names = ['hand_first_finger_base_joint', 'hand_second_finger_base_joint',
-                                'hand_thumb_joint_1', 'hand_first_finger_joint_1', 'hand_second_finger_joint_1',
-                                'hand_thumb_joint_2', 'hand_first_finger_joint_2', 'hand_third_finger_joint_1',
-                                'hand_second_finger_joint_2', 'hand_thumb_joint_3', 'hand_third_finger_joint_2', 'hand_thumb_joint_4']
         actuated_lower_pos_limit = np.array([-0.10472, -0.10472, 0, 0, 0, 0, -0.174533, 0, -0.174533, -0.349066, -0.174533, -0.349066])
         actuated_upper_pos_limit = np.array([0.10472, 0.10472, 1.5708, 1.5708, 1.5708, 1.0472, 1.91986, 1.5708, 1.91986, 1.5708, 1.91986, 1.5708])
 
