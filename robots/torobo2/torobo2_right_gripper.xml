@@ -112,6 +112,7 @@
           <inertial pos="0 0 0" mass="0.00001" diaginertia="0.00001 0.00001 0.00001"/>
           <joint name="base_joint_rot_yaw" type="hinge" axis="0 0 1" range="-10000 10000"/>
           <body name="base_link" pos="0 0 0" childclass="torobo2">
+            <inertial pos="-0.0231104 0.00158473 0.188355" quat="-0.0157449 0.686078 -0.018153 0.727131" mass="56.049" diaginertia="1.87057 1.70163 1.51139"/>
             <geom class="visual" type="mesh" mesh="base_link" material="219,219,219"/>
             <geom class="collision" type="mesh" mesh="base_link_collision"/>
             <geom class="visual" pos="0 0 0.34" type="mesh" mesh="torso_link0" material="219,219,219"/>
