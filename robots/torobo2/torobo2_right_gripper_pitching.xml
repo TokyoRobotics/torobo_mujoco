@@ -89,9 +89,9 @@
     <light directional="true" diffuse=".6 .6 .6" specular="0.2 0.2 0.2" pos="0 0 4" dir="0 0 -1" castshadow="false"/>
     <geom name="ground" type="plane" size="0 0 1" pos="0.001 0 0" quat="1 0 0 0" material="matplane" condim="1" conaffinity='15'/>
 
-    <body name="object" pos="0.27 0.48 1.07" quat="0.7071068 0.7071068 0 0">
+    <body name="object" pos="0.27 0.48 1.10922" quat="0.7071068 0.7071068 0 0">
       <freejoint/>
-      <geom name="object" type="sphere" size="0.022" mass="0.05" solref="0.001 1" solimp="0.9 0.91 0.001 0.5 2" rgba="0 1 0 1" fluidshape="ellipsoid" condim="6" friction="1 0.5 0.5"></geom>
+      <geom name="object" type="sphere" size="0.022" mass="0.05" solref="0.001 1" solimp="0.9 0.91 0.001 0.5 2" rgba="1 1 0 1" fluidshape="ellipsoid" condim="6" friction="1 0.5 0.5"></geom>
     </body>
 
     <body name="base_link_trans_x" pos="0 0 0">
