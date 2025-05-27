@@ -279,109 +279,18 @@
     </body>
   </worldbody>
   <contact>
-    <exclude body1="base_link" body2="head/link_1"/>
-    <exclude body1="base_link" body2="head/link_2"/>
-    <exclude body1="base_link" body2="head/link_3"/>
-    <exclude body1="base_link" body2="torso/link_1"/>
-    <exclude body1="base_link" body2="torso/link_2"/>
-    <exclude body1="base_link" body2="torso/link_3"/>
-    <exclude body1="head/link_1" body2="head/link_2"/>
-    <exclude body1="head/link_1" body2="head/link_3"/>
-    <exclude body1="head/link_1" body2="left_arm/link_1"/>
-    <exclude body1="head/link_1" body2="left_arm/link_2"/>
-    <exclude body1="head/link_1" body2="right_arm/link_1"/>
-    <exclude body1="head/link_1" body2="right_arm/link_2"/>
-    <exclude body1="head/link_1" body2="torso/link_1"/>
-    <exclude body1="head/link_1" body2="torso/link_2"/>
-    <exclude body1="head/link_1" body2="torso/link_3"/>
-    <exclude body1="head/link_2" body2="head/link_3"/>
-    <exclude body1="head/link_2" body2="left_arm/link_1"/>
-    <exclude body1="head/link_2" body2="left_arm/link_2"/>
-    <exclude body1="head/link_2" body2="right_arm/link_1"/>
-    <exclude body1="head/link_2" body2="right_arm/link_2"/>
-    <exclude body1="head/link_2" body2="torso/link_1"/>
-    <exclude body1="head/link_2" body2="torso/link_2"/>
-    <exclude body1="head/link_2" body2="torso/link_3"/>
-    <exclude body1="head/link_3" body2="left_arm/link_1"/>
-    <exclude body1="head/link_3" body2="right_arm/link_1"/>
-    <exclude body1="head/link_3" body2="torso/link_1"/>
-    <exclude body1="head/link_3" body2="torso/link_2"/>
-    <exclude body1="left_arm/link_1" body2="left_arm/link_2"/>
-    <exclude body1="left_arm/link_1" body2="left_arm/link_3"/>
-    <exclude body1="left_arm/link_1" body2="left_arm/link_4"/>
-    <exclude body1="left_arm/link_1" body2="left_arm/link_5"/>
-    <exclude body1="left_arm/link_1" body2="left_arm/link_6"/>
-    <exclude body1="left_arm/link_1" body2="left_arm/link_7"/>
-    <exclude body1="left_arm/link_1" body2="right_arm/link_1"/>
-    <exclude body1="left_arm/link_1" body2="right_arm/link_2"/>
-    <exclude body1="left_arm/link_1" body2="right_arm/link_3"/>
-    <exclude body1="left_arm/link_1" body2="right_arm/link_4"/>
-    <exclude body1="left_arm/link_1" body2="torso/link_1"/>
-    <exclude body1="left_arm/link_1" body2="torso/link_2"/>
-    <exclude body1="left_arm/link_1" body2="torso/link_3"/>
-    <exclude body1="left_arm/link_2" body2="left_arm/link_3"/>
-    <exclude body1="left_arm/link_2" body2="left_arm/link_4"/>
-    <exclude body1="left_arm/link_2" body2="left_arm/link_5"/>
-    <exclude body1="left_arm/link_2" body2="left_arm/link_6"/>
-    <exclude body1="left_arm/link_2" body2="left_arm/link_7"/>
-    <exclude body1="left_arm/link_2" body2="right_arm/link_1"/>
-    <exclude body1="left_arm/link_2" body2="right_arm/link_2"/>
-    <exclude body1="left_arm/link_2" body2="right_arm/link_3"/>
-    <exclude body1="left_arm/link_2" body2="torso/link_1"/>
-    <exclude body1="left_arm/link_2" body2="torso/link_2"/>
-    <exclude body1="left_arm/link_3" body2="left_arm/link_4"/>
-    <exclude body1="left_arm/link_3" body2="left_arm/link_5"/>
-    <exclude body1="left_arm/link_3" body2="left_arm/link_6"/>
-    <exclude body1="left_arm/link_3" body2="left_arm/link_7"/>
-    <exclude body1="left_arm/link_3" body2="right_arm/link_1"/>
-    <exclude body1="left_arm/link_3" body2="right_arm/link_2"/>
-    <exclude body1="left_arm/link_4" body2="left_arm/link_5"/>
-    <exclude body1="left_arm/link_4" body2="left_arm/link_6"/>
-    <exclude body1="left_arm/link_4" body2="left_arm/link_7"/>
-    <exclude body1="left_arm/link_4" body2="right_arm/link_1"/>
-    <exclude body1="left_arm/link_5" body2="left_arm/link_6"/>
-    <exclude body1="left_arm/link_5" body2="left_arm/link_7"/>
-    <exclude body1="left_arm/link_6" body2="left_arm/link_7"/>
-    <exclude body1="right_arm/link_1" body2="right_arm/link_2"/>
-    <exclude body1="right_arm/link_1" body2="right_arm/link_3"/>
-    <exclude body1="right_arm/link_1" body2="right_arm/link_4"/>
-    <exclude body1="right_arm/link_1" body2="right_arm/link_5"/>
-    <exclude body1="right_arm/link_1" body2="right_arm/link_6"/>
-    <exclude body1="right_arm/link_1" body2="right_arm/link_7"/>
-    <exclude body1="right_arm/link_1" body2="torso/link_1"/>
-    <exclude body1="right_arm/link_1" body2="torso/link_2"/>
-    <exclude body1="right_arm/link_1" body2="torso/link_3"/>
-    <exclude body1="right_arm/link_2" body2="right_arm/link_3"/>
-    <exclude body1="right_arm/link_2" body2="right_arm/link_4"/>
-    <exclude body1="right_arm/link_2" body2="right_arm/link_5"/>
-    <exclude body1="right_arm/link_2" body2="right_arm/link_6"/>
-    <exclude body1="right_arm/link_2" body2="right_arm/link_7"/>
-    <exclude body1="right_arm/link_2" body2="torso/link_1"/>
-    <exclude body1="right_arm/link_2" body2="torso/link_2"/>
-    <exclude body1="right_arm/link_3" body2="right_arm/link_4"/>
-    <exclude body1="right_arm/link_3" body2="right_arm/link_5"/>
-    <exclude body1="right_arm/link_3" body2="right_arm/link_6"/>
-    <exclude body1="right_arm/link_3" body2="right_arm/link_7"/>
-    <exclude body1="right_arm/link_4" body2="right_arm/link_5"/>
-    <exclude body1="right_arm/link_4" body2="right_arm/link_6"/>
-    <exclude body1="right_arm/link_4" body2="right_arm/link_7"/>
-    <exclude body1="right_arm/link_5" body2="right_arm/link_6"/>
-    <exclude body1="right_arm/link_5" body2="right_arm/link_7"/>
-    <exclude body1="right_arm/link_6" body2="right_arm/link_7"/>
-    <exclude body1="torso/link_1" body2="torso/link_2"/>
-    <exclude body1="torso/link_1" body2="torso/link_3"/>
-    <exclude body1="torso/link_2" body2="torso/link_3"/>
-    <exclude body1="base_link" body2="left_arm/link_1"/>
-    <exclude body1="head/link_3" body2="left_arm/link_2"/>
-    <exclude body1="base_link" body2="right_arm/link_1"/>
-    <exclude body1="head/link_3" body2="right_arm/link_2"/>
+    <exclude body1="left_arm/link_1" body2="torso/link_3" />
+    <exclude body1="left_arm/link_5" body2="left_arm/link_7" />
+    <exclude body1="right_arm/link_1" body2="torso/link_3" />
+    <exclude body1="right_arm/link_5" body2="right_arm/link_7" />
+    <exclude body1="torso/link_1" body2="torso/link_3" />
+    <exclude body1="head/link_1" body2="head/link_3" /> <!-- added -->
+
     <exclude body1="right_arm/link_5" body2="right_gripper/right_finger_base_link"/>
     <exclude body1="right_arm/link_6" body2="right_gripper/right_finger_base_link"/>
-    <exclude body1="right_arm/link_7" body2="right_gripper/right_finger_base_link"/>
     <exclude body1="right_arm/link_5" body2="right_gripper/left_finger_base_link"/>
     <exclude body1="right_arm/link_6" body2="right_gripper/left_finger_base_link"/>
     <exclude body1="right_arm/link_7" body2="right_gripper/left_finger_base_link"/>
-    <exclude body1="right_gripper/left_finger_base_link" body2="right_gripper/right_finger_base_link"/>
     <!-- This exclusion is added only in mujoco's pitching motion. -->
     <exclude body1="torso/link_3" body2="right_arm/link_2"/>
   </contact>
