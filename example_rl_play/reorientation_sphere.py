@@ -32,7 +32,7 @@ class ReorientationSphereControl(RLPlayBase):
                                                     'hand_thumb_joint_1', 'hand_thumb_joint_2', 'hand_thumb_joint_3', 'hand_thumb_joint_4'])
         self.success_tolerance = 0.2 # radians
 
-    def unscale(self, x, lower, upper):
+    def scale(self, x, lower, upper):
         return (2.0 * x - upper - lower) / (upper - lower)
 
     def play(self):
@@ -88,7 +88,7 @@ class ReorientationSphereControl(RLPlayBase):
             if count_lowlevel % self.sim_decimation == 0:
                 obs = np.zeros([1, self.num_single_obs], dtype=np.float32)
 
-                obs[0, 0:16] = self.unscale(q[self.mujoco2isaac_indices], lower_pos_limit, upper_pos_limit)
+                obs[0, 0:16] = self.scale(q[self.mujoco2isaac_indices], lower_pos_limit, upper_pos_limit)
                 obs[0, 16:28] = self.target_q
                 obs[0, 28:32] = quat_diff[[3, 0, 1, 2]] # w, x, y, z
 

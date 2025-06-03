@@ -32,7 +32,7 @@ class ReorientationCubeControl(RLPlayBase):
                                                     'hand_thumb_joint_1', 'hand_thumb_joint_2', 'hand_thumb_joint_3', 'hand_thumb_joint_4'])
         self.success_tolerance = 0.3 # radians
 
-    def unscale(self, x, lower, upper):
+    def scale(self, x, lower, upper):
         return (2.0 * x - upper - lower) / (upper - lower)
 
     def play(self):
@@ -108,7 +108,7 @@ class ReorientationCubeControl(RLPlayBase):
                 data.qpos[0:4] = target_quat[[3, 0, 1, 2]] # w, x, y, z
 
             if count_lowlevel % self.sim_decimation == 0:
-                joint_pos = self.unscale(q[self.mujoco2isaac_indices], lower_pos_limit, upper_pos_limit)
+                joint_pos = self.scale(q[self.mujoco2isaac_indices], lower_pos_limit, upper_pos_limit)
                 last_processed_action = prev_target_q.copy()
                 target_quat_diff = quat_diff[[3, 0, 1, 2]]
                 object_pos = qpos[4:7]
