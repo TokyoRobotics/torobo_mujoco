@@ -21,6 +21,17 @@ class ReorientationCubeControl(RLPlayBase):
                          sim_dt=0.01,
                          sim_decimation=4,
                          default_qpos=np.zeros(16, dtype=np.double),
+                         soft_joint_pos_limit_factor = 0.9,
+                         lower_pos_limit = [-0.10472, -0.10472, -0.10472,
+                                            0, 0, 0,
+                                            -0.13962, -0.13962, 0,
+                                            -0.13962, -0.314159, -0.13962,
+                                            -0.13962, -0.13962, -0.314159, -0.13962],
+                         upper_pos_limit = [0.10472, 0.10472, 0.10472,
+                                            1.5009, 1.5009, 1.5009,
+                                            0.9250, 1.8849, 1.5009,
+                                            1.8849, 1.53588, 1.8849,
+                                            1.8849, 1.8849, 1.53588, 1.8849],
                          isaac_joint_names_order = ['hand_first_finger_base_joint', 'hand_second_finger_base_joint', 'hand_third_finger_base_joint',
                                                     'hand_thumb_joint_1', 'hand_first_finger_joint_1', 'hand_second_finger_joint_1',
                                                     'hand_thumb_joint_2', 'hand_first_finger_joint_2', 'hand_third_finger_joint_1',
@@ -29,7 +40,11 @@ class ReorientationCubeControl(RLPlayBase):
                          mujoco_joint_names_order = ['hand_first_finger_base_joint', 'hand_first_finger_joint_1', 'hand_first_finger_joint_2', 'hand_first_finger_joint_3',
                                                     'hand_second_finger_base_joint', 'hand_second_finger_joint_1', 'hand_second_finger_joint_2', 'hand_second_finger_joint_3',
                                                     'hand_third_finger_base_joint', 'hand_third_finger_joint_1', 'hand_third_finger_joint_2', 'hand_third_finger_joint_3',
-                                                    'hand_thumb_joint_1', 'hand_thumb_joint_2', 'hand_thumb_joint_3', 'hand_thumb_joint_4'])
+                                                    'hand_thumb_joint_1', 'hand_thumb_joint_2', 'hand_thumb_joint_3', 'hand_thumb_joint_4'],
+                         actuated_joint_names_order = ['hand_first_finger_base_joint', 'hand_second_finger_base_joint',
+                                                       'hand_thumb_joint_1', 'hand_first_finger_joint_1', 'hand_second_finger_joint_1',
+                                                      'hand_thumb_joint_2', 'hand_first_finger_joint_2', 'hand_third_finger_joint_1',
+                                                      'hand_second_finger_joint_2', 'hand_thumb_joint_3', 'hand_third_finger_joint_2', 'hand_thumb_joint_4'])
         self.success_tolerance = 0.3 # radians
 
     def scale(self, x, lower, upper):
@@ -42,36 +57,6 @@ class ReorientationCubeControl(RLPlayBase):
         data = mujoco.MjData(model)
 
         viewer = mujoco.viewer.launch_passive(model, data)
-
-        lower_pos_limit_dict = {'hand_first_finger_base_joint': -0.10472, 'hand_second_finger_base_joint': -0.10472, 'hand_third_finger_base_joint': -0.10472,
-                                'hand_thumb_joint_1': 0, 'hand_first_finger_joint_1': 0, 'hand_second_finger_joint_1': 0,
-                                'hand_thumb_joint_2': -0.13962, 'hand_first_finger_joint_2': -0.13962, 'hand_third_finger_joint_1': 0,
-                                'hand_second_finger_joint_2': -0.13962, 'hand_thumb_joint_3': -0.314159, 'hand_first_finger_joint_3': -0.13962,
-                                'hand_third_finger_joint_2': -0.13962, 'hand_second_finger_joint_3': -0.13962, 'hand_thumb_joint_4': -0.314159, 'hand_third_finger_joint_3': -0.13962}
-        upper_pos_limit_dict = {'hand_first_finger_base_joint': 0.10472, 'hand_second_finger_base_joint': 0.10472, 'hand_third_finger_base_joint': 0.10472,
-                                'hand_thumb_joint_1': 1.5009, 'hand_first_finger_joint_1': 1.5009, 'hand_second_finger_joint_1': 1.5009,
-                                'hand_thumb_joint_2': 0.9250, 'hand_first_finger_joint_2': 1.8849, 'hand_third_finger_joint_1': 1.5009,
-                                'hand_second_finger_joint_2': 1.8849, 'hand_thumb_joint_3': 1.53588, 'hand_first_finger_joint_3': 1.8849,
-                                'hand_third_finger_joint_2': 1.8849, 'hand_second_finger_joint_3': 1.8849, 'hand_thumb_joint_4': 1.53588, 'hand_third_finger_joint_3': 1.8849}
-
-        soft_joint_pos_limit_factor = 0.9
-
-        lower_pos_limit = np.array(list(lower_pos_limit_dict.values()))
-        upper_pos_limit = np.array(list(upper_pos_limit_dict.values()))
-        mean_pos_limit = 0.5 * (lower_pos_limit + upper_pos_limit)
-        lower_pos_limit = mean_pos_limit - (mean_pos_limit - lower_pos_limit) * soft_joint_pos_limit_factor
-        upper_pos_limit = mean_pos_limit + (upper_pos_limit - mean_pos_limit) * soft_joint_pos_limit_factor
-
-        # must be controlled in the order of the following indices
-        actuated_joint_names = ['hand_first_finger_base_joint', 'hand_second_finger_base_joint',
-                                'hand_thumb_joint_1', 'hand_first_finger_joint_1', 'hand_second_finger_joint_1',
-                                'hand_thumb_joint_2', 'hand_first_finger_joint_2', 'hand_third_finger_joint_1',
-                                'hand_second_finger_joint_2', 'hand_thumb_joint_3', 'hand_third_finger_joint_2', 'hand_thumb_joint_4']
-        actuated_lower_pos_limit = np.array([lower_pos_limit_dict[joint_name] for joint_name in actuated_joint_names])
-        actuated_upper_pos_limit = np.array([upper_pos_limit_dict[joint_name] for joint_name in actuated_joint_names])
-        mean_actuated_pos_limit = 0.5 * (actuated_lower_pos_limit + actuated_upper_pos_limit)
-        actuated_lower_pos_limit = mean_actuated_pos_limit - (mean_actuated_pos_limit - actuated_lower_pos_limit) * soft_joint_pos_limit_factor
-        actuated_upper_pos_limit = mean_actuated_pos_limit + (actuated_upper_pos_limit - mean_actuated_pos_limit) * soft_joint_pos_limit_factor
 
         prev_target_q = np.zeros((self.num_actions), dtype=np.double)
         prev_action = np.zeros((self.num_actions), dtype=np.double)
@@ -108,7 +93,7 @@ class ReorientationCubeControl(RLPlayBase):
                 data.qpos[0:4] = target_quat[[3, 0, 1, 2]] # w, x, y, z
 
             if count_lowlevel % self.sim_decimation == 0:
-                joint_pos = self.scale(q[self.mujoco2isaac_indices], lower_pos_limit, upper_pos_limit)
+                joint_pos = self.scale(q[self.mujoco2isaac_indices], self.lower_pos_limit, self.upper_pos_limit)
                 last_processed_action = prev_target_q.copy()
                 target_quat_diff = quat_diff[[3, 0, 1, 2]]
                 object_pos = qpos[4:7]
@@ -132,9 +117,9 @@ class ReorientationCubeControl(RLPlayBase):
                                                           prev_last_processed_action, last_processed_action])
                 self.action = self.policy(torch.tensor(self.policy_input))[0].detach().numpy()
                 self.action = np.clip(self.action, -1, 1)
-                self.target_q = 0.1 * self.action + prev_target_q
+                self.target_q = 0.15 * self.action + prev_target_q
 
-                self.target_q = np.clip(self.target_q, actuated_lower_pos_limit, actuated_upper_pos_limit)
+                self.target_q = np.clip(self.target_q, self.actuated_lower_pos_limit, self.actuated_upper_pos_limit)
 
                 prev_action[:] = self.action.copy()
                 prev_target_q[:] = self.target_q.copy()

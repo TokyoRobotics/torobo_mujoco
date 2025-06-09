@@ -21,6 +21,17 @@ class ReorientationSphereControl(RLPlayBase):
                          sim_dt=0.0083,
                          sim_decimation=4,
                          default_qpos=np.array([0, 0.01, 0.01, 1.42, 0, 0, 0.93, 0.8, 1.5, 0.8, -0.3, 0.46, 1.1, 0.46, -0.3, 0.632]),
+                         soft_joint_pos_limit_factor = 1.0,
+                         lower_pos_limit = [-0.10472, -0.10472, -0.10472,
+                                            0, 0, 0,
+                                            -0.13962, -0.13962, 0,
+                                            -0.13962, -0.314159, -0.13962,
+                                            -0.13962, -0.13962, -0.314159, -0.13962],
+                         upper_pos_limit = [0.10472, 0.10472, 0.10472,
+                                            1.5009, 1.5009, 1.5009,
+                                            0.9250, 1.8849, 1.5009,
+                                            1.8849, 1.53588, 1.8849,
+                                            1.8849, 1.8849, 1.53588, 1.8849],
                          isaac_joint_names_order = ['hand_first_finger_base_joint', 'hand_second_finger_base_joint', 'hand_third_finger_base_joint',
                                                     'hand_thumb_joint_1', 'hand_first_finger_joint_1', 'hand_second_finger_joint_1',
                                                     'hand_thumb_joint_2', 'hand_first_finger_joint_2', 'hand_third_finger_joint_1',
@@ -29,7 +40,11 @@ class ReorientationSphereControl(RLPlayBase):
                          mujoco_joint_names_order = ['hand_first_finger_base_joint', 'hand_first_finger_joint_1', 'hand_first_finger_joint_2', 'hand_first_finger_joint_3',
                                                     'hand_second_finger_base_joint', 'hand_second_finger_joint_1', 'hand_second_finger_joint_2', 'hand_second_finger_joint_3',
                                                     'hand_third_finger_base_joint', 'hand_third_finger_joint_1', 'hand_third_finger_joint_2', 'hand_third_finger_joint_3',
-                                                    'hand_thumb_joint_1', 'hand_thumb_joint_2', 'hand_thumb_joint_3', 'hand_thumb_joint_4'])
+                                                    'hand_thumb_joint_1', 'hand_thumb_joint_2', 'hand_thumb_joint_3', 'hand_thumb_joint_4'],
+                        actuated_joint_names_order = ['hand_first_finger_base_joint', 'hand_second_finger_base_joint',
+                                                    'hand_thumb_joint_1', 'hand_first_finger_joint_1', 'hand_second_finger_joint_1',
+                                                    'hand_thumb_joint_2', 'hand_first_finger_joint_2', 'hand_third_finger_joint_1',
+                                                    'hand_second_finger_joint_2', 'hand_thumb_joint_3', 'hand_third_finger_joint_2', 'hand_thumb_joint_4'])
         self.success_tolerance = 0.2 # radians
 
     def scale(self, x, lower, upper):
@@ -40,23 +55,8 @@ class ReorientationSphereControl(RLPlayBase):
         model.opt.timestep = self.sim_dt
 
         data = mujoco.MjData(model)
-        # set initial positions
-        mujoco_actuated_joint_names_order = ['hand_first_finger_base_joint', 'hand_first_finger_joint_1', 'hand_first_finger_joint_2',
-                                            'hand_second_finger_base_joint', 'hand_second_finger_joint_1', 'hand_second_finger_joint_2',
-                                            'hand_third_finger_joint_1', 'hand_third_finger_joint_2',
-                                            'hand_thumb_joint_1', 'hand_thumb_joint_2', 'hand_thumb_joint_3', 'hand_thumb_joint_4']
-        isaac2mujoco_actuated_indices = [self.isaac_joint_names_order.index(joint_name) for joint_name in mujoco_actuated_joint_names_order]
-
-        data.qpos[-self.num_dofs:] = self.default_qpos[self.isaac2mujoco_indices]
-        data.ctrl = self.default_qpos[isaac2mujoco_actuated_indices]
 
         viewer = mujoco.viewer.launch_passive(model, data)
-
-        lower_pos_limit = np.array([-0.10472, -0.10472, -0.10472, 0, 0, 0, 0, -0.174533, 0, -0.174533, -0.349066, -0.174533, -0.174533, -0.174533, -0.349066, -0.174533])
-        upper_pos_limit = np.array([0.10472, 0.10472, 0.10472, 1.5708, 1.5708, 1.5708, 1.0472, 1.91986, 1.5708, 1.91986, 1.5708, 1.91986, 1.91986, 1.91986, 1.5708, 1.91986])
-
-        actuated_lower_pos_limit = np.array([-0.10472, -0.10472, 0, 0, 0, 0, -0.174533, 0, -0.174533, -0.349066, -0.174533, -0.349066])
-        actuated_upper_pos_limit = np.array([0.10472, 0.10472, 1.5708, 1.5708, 1.5708, 1.0472, 1.91986, 1.5708, 1.91986, 1.5708, 1.91986, 1.5708])
 
         prev_target_q = np.zeros((self.num_actions), dtype=np.double)
         prev_action = np.zeros((self.num_actions), dtype=np.double)
@@ -88,7 +88,7 @@ class ReorientationSphereControl(RLPlayBase):
             if count_lowlevel % self.sim_decimation == 0:
                 obs = np.zeros([1, self.num_single_obs], dtype=np.float32)
 
-                obs[0, 0:16] = self.scale(q[self.mujoco2isaac_indices], lower_pos_limit, upper_pos_limit)
+                obs[0, 0:16] = self.scale(q[self.mujoco2isaac_indices], self.lower_pos_limit, self.upper_pos_limit)
                 obs[0, 16:28] = self.target_q
                 obs[0, 28:32] = quat_diff[[3, 0, 1, 2]] # w, x, y, z
 
@@ -102,7 +102,7 @@ class ReorientationSphereControl(RLPlayBase):
                 ema_actions = 0.8 * self.action + 0.2 * prev_action
                 self.target_q = prev_target_q + ema_actions
 
-                self.target_q = np.clip(self.target_q, actuated_lower_pos_limit, actuated_upper_pos_limit)
+                self.target_q = np.clip(self.target_q, self.actuated_lower_pos_limit, self.actuated_upper_pos_limit)
 
                 prev_action[:] = self.action.copy()
                 prev_target_q[:] = self.target_q.copy()
