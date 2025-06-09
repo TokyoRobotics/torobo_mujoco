@@ -68,3 +68,13 @@ python reorientation_sphere.py
 ```
 
 <img src="./doc/hand_v4_reorientation_sphere.gif" width="600">
+
+### Reorientate cube
+※ Please execute the script again when the cube gets stuck in the hand or falls from the hand.
+
+```
+cd example_rl_play
+python reorientation_cube.py
+```
+
+<img src="./doc/hand_v4_reorientation_cube.gif" width="600">
