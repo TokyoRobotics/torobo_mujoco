@@ -1,8 +1,6 @@
-import math
 import numpy as np
 import mujoco, mujoco.viewer
 from tqdm import tqdm
-from collections import deque
 from scipy.spatial.transform import Rotation as R
 import torch
 import time
